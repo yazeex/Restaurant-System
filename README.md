@@ -37,4 +37,4 @@ Setup Instructions
 - After selecting the version, click the "Download" button next to it.
 
 4.Choose the download method:
--click on the link "No thanks, just start my download" at the bottom of the page.
+- click on the link "No thanks, just start my download" at the bottom of the page.
