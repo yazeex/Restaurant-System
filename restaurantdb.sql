@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2025 at 03:45 PM
+-- Generation Time: Jan 18, 2025 at 02:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,8 +61,7 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`reservation_id`, `table_id`, `customer_id`, `reservation_time`, `duration`) VALUES
-(1, 1, 1, '2025-01-18 19:00:00', 90),
-(2, 2, 2, '2025-01-18 20:00:00', 120);
+(1, 1, 1, '2025-01-18 19:00:00', 90);
 
 -- --------------------------------------------------------
 
@@ -84,8 +83,9 @@ CREATE TABLE `tables` (
 
 INSERT INTO `tables` (`table_id`, `table_number`, `capacity`, `location`, `status`) VALUES
 (1, 'T01', 4, 'Window', 'available'),
-(2, 'T02', 6, 'Center', 'available'),
-(3, 'T03', 2, 'Corner', 'available');
+(5, '5', 3, 'right', 'available'),
+(6, '2', 2, 'lower', 'available'),
+(7, '105', 5, 'corner', 'available');
 
 --
 -- Indexes for dumped tables
@@ -131,7 +131,7 @@ ALTER TABLE `reservations`
 -- AUTO_INCREMENT for table `tables`
 --
 ALTER TABLE `tables`
-  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
