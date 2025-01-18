@@ -1,11 +1,14 @@
 # Restaurant-System
 
+## How To Use
 Download and install XAMPP on your computer from this link https://www.apachefriends.org/download.html
 
 Download and install mysql connector java from this link https://dev.mysql.com/downloads/connector/j/
 
 Setup Instructions
-# XAMPP
+
+### XAMPP
+
 1.Start Apache and MySQL:
 - After successfully installing XAMPP, open the XAMPP Control Panel.
 - Start the Apache and MySQL services by clicking the "Start" buttons for each.
@@ -25,7 +28,7 @@ Setup Instructions
 - Click the Go button to import the SQL file.
 - Note: Ensure the required tables, such as user and movie, are created.
 
-# Mysql Connector Java
+### Mysql Connector Java
 
 1.Select the operating system:
 - On the page, you will find the option "Select Operating System." Choose "Platform Independent" if you want to download the JAR file directly
