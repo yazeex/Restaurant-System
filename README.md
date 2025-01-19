@@ -26,7 +26,7 @@ Setup Instructions
 - Go to the Import tab at the top.
 - Click Choose File and select the SQL file associated with the project.
 - Click the Go button to import the SQL file.
-- Note: Ensure the required tables, such as user and movie, are created.
+
 
 ### Mysql Connector Java
 
