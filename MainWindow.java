@@ -1,6 +1,4 @@
-package aaaaaa;
-
-import javax.swing.*;
+package restaurant_system;
 
 import javax.swing.*;
 
@@ -17,10 +15,10 @@ public class MainWindow extends JFrame
         // Create a tabbed pane
         JTabbedPane tabbedPane = new JTabbedPane();
         // Add tabs for each module
-        tabbedPane.addTab("Table Management", new TableManagementPanelDAO());
-        tabbedPane.addTab("Customer Management", new CustomerManagementPanelDAO());
-        tabbedPane.addTab("Reservation Management", new ReservationManagementPanelDAO());
-        tabbedPane.addTab("Reporting", new ReportingPanel());
+        tabbedPane.addTab("Table Management", new TableManagementPanel());
+        tabbedPane.addTab("Reservation Management", new ReservationManagementPanel());
+        tabbedPane.addTab("Customer Management", new CustomerManagementPanel());
+        //tabbedPane.addTab("Reporting", new ReportingPanel());
         // Add the tabbed pane to the main window
         add(tabbedPane);
         // Center the window on the screen
@@ -30,8 +28,7 @@ public class MainWindow extends JFrame
     public static void main(String[] args) 
     {
         // Create and show the main window
-        SwingUtilities.invokeLater(() -> 
-        {
+        SwingUtilities.invokeLater(() -> {
             MainWindow mainWindow = new MainWindow();
             mainWindow.setVisible(true);
         });

@@ -1,4 +1,4 @@
-package aaaaaa;
+package restaurant_system;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
