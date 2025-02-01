@@ -22,6 +22,11 @@ wait times, and enhance the overall dining.
 -**Reporting**
   - Generate reports on daily or weekly reservation schedules, peak hours, and regular customers.
 
+## Technologies Used
+
+-  **java {Eclipse IDE}**: To implment the system
+-  **XAMPP**: To use apache to create local server and to use Mycql to create database 
+
 ## How To Use
 Download and install XAMPP on your computer from this link https://www.apachefriends.org/download.html
 
