@@ -1,7 +1,7 @@
 # Restaurant Table Reservation System
 
 ## about the system
-he Restaurant Table Reservation System is designed to streamline the booking and
+The Restaurant Table Reservation System is designed to streamline the booking and
 management of restaurant tables by providing a centralized database for storing reserva-
 tions, allowing customers to book tables in advance, and enabling real-time tracking of
 table availability. This system helps restaurants optimize seating arrangements, minimize
