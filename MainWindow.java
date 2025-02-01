@@ -1,6 +1,4 @@
-package aaaaaa;
-
-import javax.swing.*;
+package restaurant_system;
 
 import javax.swing.*;
 

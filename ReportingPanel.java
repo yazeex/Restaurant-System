@@ -1,4 +1,4 @@
-package aaaaaa;
+package restaurant_system;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

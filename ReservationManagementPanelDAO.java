@@ -1,7 +1,8 @@
-package aaaaaa;
+package restaurant_system;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,40 +12,70 @@ public class ReservationManagementPanelDAO extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
     private Connection connection;
+    private JTextField searchField;
+    private TableRowSorter<DefaultTableModel> sorter;
 
     public ReservationManagementPanelDAO() {
         connection = DatabaseConnection.getConnection();
-
-        // Set layout for the panel
         setLayout(new BorderLayout());
+
+        // Create search panel
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchField = new JTextField(20);
+        searchField.setPreferredSize(new Dimension(200, 30));
+        JLabel searchLabel = new JLabel("Search: ");
+        searchPanel.add(searchLabel);
+        searchPanel.add(searchField);
 
         // Table columns
         String[] columnNames = {"Reservation ID", "Table Number", "Customer Name", "Reservation Time", "Duration"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
+        
+        // Add row sorter for filtering
+        sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
+        
+        // Add search functionality
+        searchField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { search(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { search(); }
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { search(); }
+        });
+
         JScrollPane tableScrollPane = new JScrollPane(table);
 
-        // Add the table to the panel
-        add(tableScrollPane, BorderLayout.CENTER);
-
-        // Create buttons for actions
+        // Create buttons panel
         JPanel buttonPanel = new JPanel();
         JButton addButton = new JButton("Book a Table");
         JButton cancelButton = new JButton("Cancel Reservation");
+        JButton refreshButton = new JButton("Refresh");
 
-        // Add buttons to the button panel
         buttonPanel.add(addButton);
         buttonPanel.add(cancelButton);
+        buttonPanel.add(refreshButton);
 
-        // Add the button panel to the bottom of the main panel
+        // Layout components
+        add(searchPanel, BorderLayout.NORTH);
+        add(tableScrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Add action listeners
         addButton.addActionListener(e -> bookTable());
         cancelButton.addActionListener(e -> cancelReservation());
+        refreshButton.addActionListener(e -> loadReservationData());
 
-        // Load reservation data initially
         loadReservationData();
+    }
+
+    private void search() {
+        String text = searchField.getText().trim().toLowerCase();
+        if (text.isEmpty()) {
+            sorter.setRowFilter(null);
+        } else {
+            // Search across all columns
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
     }
 
     // Database operations
