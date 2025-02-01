@@ -1,4 +1,4 @@
-package restaurant_system;
+package aaaaaa;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -28,17 +28,15 @@ public class ReportingPanel extends JPanel
         reportTypeComboBox = new JComboBox<>(new String[]{
             "Daily Reservations",
             "Table Utilization",
-            "Customer Statistics",
-            "Revenue by Table"
+            "Customer Statistics"
+          
         });
         
         JButton generateButton = new JButton("Generate Report");
-        JButton exportButton = new JButton("Export to CSV");
         
         controlPanel.add(new JLabel("Report Type:"));
         controlPanel.add(reportTypeComboBox);
         controlPanel.add(generateButton);
-        controlPanel.add(exportButton);
 
         // Create center panel for report display
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -57,9 +55,7 @@ public class ReportingPanel extends JPanel
         add(centerPanel, BorderLayout.CENTER);
 
         // Add action listeners
-        generateButton.addActionListener(e -> generateReport());
-        exportButton.addActionListener(e -> exportReport());
-        
+        generateButton.addActionListener(e -> generateReport());        
         // Generate initial report
         generateReport();
     }
@@ -76,9 +72,7 @@ public class ReportingPanel extends JPanel
             case "Customer Statistics":
                 generateCustomerStatisticsReport();
                 break;
-            case "Revenue by Table":
-                generateRevenueByTableReport();
-                break;
+           
         }
     }
 
@@ -179,77 +173,4 @@ public class ReportingPanel extends JPanel
         }
     }
 
-    private void generateRevenueByTableReport() {
-        // This is a placeholder method - in a real system, you would need to
-        // have revenue data associated with reservations
-        String query = "SELECT t.table_number, COUNT(r.reservation_id) as booking_count " +
-                      "FROM Tables t " +
-                      "LEFT JOIN Reservations r ON t.table_id = r.table_id " +
-                      "GROUP BY t.table_id, t.table_number";
-        
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-            
-            tableModel.setColumnCount(0);
-            tableModel.addColumn("Table Number");
-            tableModel.addColumn("Total Bookings");
-            tableModel.addColumn("Estimated Revenue");
-            
-            tableModel.setRowCount(0);
-            
-            while (rs.next()) {
-                // Assuming average revenue of $50 per booking
-                double estimatedRevenue = rs.getInt("booking_count") * 50.0;
-                tableModel.addRow(new Object[]{
-                    rs.getString("table_number"),
-                    rs.getInt("booking_count"),
-                    String.format("$%.2f", estimatedRevenue)
-                });
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error generating revenue report: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void exportReport() {
-        StringBuilder csv = new StringBuilder();
-        
-        // Add headers
-        for (int i = 0; i < tableModel.getColumnCount(); i++) {
-            csv.append(tableModel.getColumnName(i));
-            if (i < tableModel.getColumnCount() - 1) {
-                csv.append(",");
-            }
-        }
-        csv.append("\n");
-        
-        // Add data
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            for (int j = 0; j < tableModel.getColumnCount(); j++) {
-                csv.append(tableModel.getValueAt(i, j));
-                if (j < tableModel.getColumnCount() - 1) {
-                    csv.append(",");
-                }
-            }
-            csv.append("\n");
-        }
-        
-        // Show save dialog
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Save Report");
-        fileChooser.setSelectedFile(new File("report.csv"));
-        
-        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try (FileWriter writer = new FileWriter(fileChooser.getSelectedFile())) {
-                writer.write(csv.toString());
-                JOptionPane.showMessageDialog(this, "Report exported successfully!");
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error exporting report: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
 }
