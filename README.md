@@ -68,3 +68,12 @@ Setup Instructions
 
 4.Choose the download method:
 - click on the link "No thanks, just start my download" at the bottom of the page.
+
+5.Save the file:
+- The download of the file `mysql-connector-java-x.x.xx.zip` will begin. Save the file to the desired folder on your computer.
+
+6.Extract the file:
+- Once the download is complete, extract the compressed file. Inside the folder, you will find the `mysql-connector-java-x.x.xx.jar` file.
+
+7.Add the file to your project:
+- If you are working on a Java project, add the `JAR` file to your project's build path (classpath). You can do this manually or using tools like Maven or Gradle.
