@@ -1,4 +1,4 @@
-package restaurant_system;
+package aaaaaa;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +14,7 @@ public class ReservationManagementPanelDAO extends JPanel {
 
     public ReservationManagementPanelDAO() {
         connection = DatabaseConnection.getConnection();
-        
+
         // Set layout for the panel
         setLayout(new BorderLayout());
 
@@ -31,12 +31,10 @@ public class ReservationManagementPanelDAO extends JPanel {
         JPanel buttonPanel = new JPanel();
         JButton addButton = new JButton("Book a Table");
         JButton cancelButton = new JButton("Cancel Reservation");
-        JButton refreshButton = new JButton("Refresh");
 
         // Add buttons to the button panel
         buttonPanel.add(addButton);
         buttonPanel.add(cancelButton);
-        buttonPanel.add(refreshButton);
 
         // Add the button panel to the bottom of the main panel
         add(buttonPanel, BorderLayout.SOUTH);
@@ -44,7 +42,6 @@ public class ReservationManagementPanelDAO extends JPanel {
         // Add action listeners
         addButton.addActionListener(e -> bookTable());
         cancelButton.addActionListener(e -> cancelReservation());
-        refreshButton.addActionListener(e -> loadReservationData());
 
         // Load reservation data initially
         loadReservationData();
@@ -52,27 +49,87 @@ public class ReservationManagementPanelDAO extends JPanel {
 
     // Database operations
     public boolean addReservation(int tableId, int customerId, Timestamp reservationTime, int duration) {
+        // Check if the table is already reserved
+        if (isTableReserved(tableId, reservationTime, duration)) {
+            JOptionPane.showMessageDialog(this, "Table is already reserved during the requested time.");
+            return false;
+        }
+
         String query = "INSERT INTO Reservations (table_id, customer_id, reservation_time, duration) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, tableId);
             stmt.setInt(2, customerId);
             stmt.setTimestamp(3, reservationTime);
             stmt.setInt(4, duration);
-            return stmt.executeUpdate() > 0;
+
+            // Update table status to "reserved"
+            if (stmt.executeUpdate() > 0) {
+                updateTableStatus(tableId, "reserved");
+                return true;
+            }
         } catch (SQLException e) {
             System.out.println("Error adding reservation: " + e.getMessage());
-            return false;
         }
+        return false;
     }
 
     public boolean cancelReservation(int reservationId) {
         String query = "DELETE FROM Reservations WHERE reservation_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, reservationId);
-            return stmt.executeUpdate() > 0;
+
+            // Get the table ID before deleting the reservation
+            int tableId = getTableIdFromReservation(reservationId);
+
+            if (stmt.executeUpdate() > 0) {
+                // Update table status to "available"
+                updateTableStatus(tableId, "available");
+                return true;
+            }
         } catch (SQLException e) {
             System.out.println("Error canceling reservation: " + e.getMessage());
-            return false;
+        }
+        return false;
+    }
+
+    private boolean isTableReserved(int tableId, Timestamp reservationTime, int duration) {
+        String query = "SELECT * FROM Reservations WHERE table_id = ? AND " +
+                       "(reservation_time <= ? AND DATE_ADD(reservation_time, INTERVAL duration MINUTE) >= ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, tableId);
+            stmt.setTimestamp(2, new Timestamp(reservationTime.getTime() + duration * 60 * 1000));
+            stmt.setTimestamp(3, reservationTime);
+
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // If a record exists, the table is reserved
+        } catch (SQLException e) {
+            System.out.println("Error checking table reservation: " + e.getMessage());
+        }
+        return false;
+    }
+
+    private int getTableIdFromReservation(int reservationId) {
+        String query = "SELECT table_id FROM Reservations WHERE reservation_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, reservationId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("table_id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching table ID: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    private void updateTableStatus(int tableId, String status) {
+        String query = "UPDATE Tables SET status = ? WHERE table_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, status);
+            stmt.setInt(2, tableId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating table status: " + e.getMessage());
         }
     }
 
@@ -108,7 +165,7 @@ public class ReservationManagementPanelDAO extends JPanel {
         }
     }
 
-    private void bookTable() throws NumberFormatException {
+    private void bookTable() {
         String tableIdStr = JOptionPane.showInputDialog(this, "Enter Table ID:");
         String customerIdStr = JOptionPane.showInputDialog(this, "Enter Customer ID:");
         String reservationTimeStr = JOptionPane.showInputDialog(this, "Enter Reservation Time (yyyy-MM-dd HH:mm:ss):");

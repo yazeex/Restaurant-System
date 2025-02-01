@@ -1,4 +1,4 @@
-package restaurant_system;
+package aaaaaa;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,13 +32,11 @@ public class CustomerManagementPanelDAO extends JPanel {
         JButton addButton = new JButton("Add Customer");
         JButton editButton = new JButton("Edit Customer");
         JButton deleteButton = new JButton("Delete Customer");
-        JButton refreshButton = new JButton("Refresh");
 
         // Add buttons to the button panel
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(refreshButton);
 
         // Add the button panel to the bottom of the main panel
         add(buttonPanel, BorderLayout.SOUTH);
@@ -47,8 +45,6 @@ public class CustomerManagementPanelDAO extends JPanel {
         addButton.addActionListener(e -> addCustomer());
         editButton.addActionListener(e -> editCustomer());
         deleteButton.addActionListener(e -> deleteCustomer());
-        refreshButton.addActionListener(e -> loadCustomerData());
-
         // Load customer data initially
         loadCustomerData();
     }
@@ -184,6 +180,6 @@ public class CustomerManagementPanelDAO extends JPanel {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please select a customer to delete.");
-            }
         }
     }
+}

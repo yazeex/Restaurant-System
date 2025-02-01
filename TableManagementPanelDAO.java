@@ -1,4 +1,4 @@
-package restaurant_system;
+package aaaaaa;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,21 +32,23 @@ public class TableManagementPanelDAO extends JPanel {
         JButton addButton = new JButton("Add Table");
         JButton editButton = new JButton("Edit Table");
         JButton deleteButton = new JButton("Delete Table");
-        JButton refreshButton = new JButton("Refresh");
+        JButton refreshButton = new JButton("Refresh"); // Add Refresh button
 
         // Add buttons to the button panel
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
-        buttonPanel.add(refreshButton);
+        buttonPanel.add(refreshButton); // Add Refresh button to the panel
 
         // Add the button panel to the bottom of the main panel
         add(buttonPanel, BorderLayout.SOUTH);
+
         // Add action listeners
         addButton.addActionListener(e -> addTable());
         editButton.addActionListener(e -> editTable());
         deleteButton.addActionListener(e -> deleteTable());
-        refreshButton.addActionListener(e -> loadTableData());
+        refreshButton.addActionListener(e -> loadTableData()); // Refresh table data
+
         // Load table data initially
         loadTableData();
     }
@@ -101,7 +103,7 @@ public class TableManagementPanelDAO extends JPanel {
                     rs.getString("table_number"),
                     String.valueOf(rs.getInt("capacity")),
                     rs.getString("location"),
-                    rs.getString("status")
+                    rs.getString("status") // Fetch the status from the database
                 });
             }
         } catch (SQLException e) {
@@ -111,7 +113,6 @@ public class TableManagementPanelDAO extends JPanel {
     }
 
     // UI Operations
-
     private void loadTableData() {
         List<String[]> tables = getAllTables();
         tableModel.setRowCount(0); // Clear existing data
@@ -122,20 +123,27 @@ public class TableManagementPanelDAO extends JPanel {
 
     private void addTable() {
         String tableNumber = JOptionPane.showInputDialog(this, "Enter Table Number:");
-        String capacityStr = JOptionPane.showInputDialog(this, "Enter Capacity:");
-        String location = JOptionPane.showInputDialog(this, "Enter Location:");
+        if (tableNumber != null) {
+            if (tableNumberExists(tableNumber)) {
+                JOptionPane.showMessageDialog(this, "Table number already exists. Please enter a unique table number.");
+                return;
+            }
 
-        if (tableNumber != null && capacityStr != null && location != null) {
-            try {
-                int capacity = Integer.parseInt(capacityStr);
-                if (addTable(tableNumber, capacity, location)) {
-                    JOptionPane.showMessageDialog(this, "Table added successfully!");
-                    loadTableData();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Failed to add table.");
+            String capacityStr = JOptionPane.showInputDialog(this, "Enter Capacity:");
+            String location = JOptionPane.showInputDialog(this, "Enter Location:");
+
+            if (capacityStr != null && location != null) {
+                try {
+                    int capacity = Integer.parseInt(capacityStr);
+                    if (addTable(tableNumber, capacity, location)) {
+                        JOptionPane.showMessageDialog(this, "Table added successfully!");
+                        loadTableData(); // Refresh table data after adding
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to add table.");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Invalid capacity value. Please enter a number.");
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid capacity value. Please enter a number.");
             }
         }
     }
@@ -153,15 +161,11 @@ public class TableManagementPanelDAO extends JPanel {
                     int capacity = Integer.parseInt(capacityStr);
                     if (editTable(tableId, tableNumber, capacity, location)) {
                         JOptionPane.showMessageDialog(this, "Table updated successfully!");
-                        loadTableData();
-                    }
-                    else
-                    {
+                        loadTableData(); // Refresh table data after editing
+                    } else {
                         JOptionPane.showMessageDialog(this, "Failed to update table.");
                     }
-                }
-                catch (NumberFormatException e)
-                {
+                } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(this, "Invalid capacity value. Please enter a number.");
                 }
             }
@@ -174,12 +178,12 @@ public class TableManagementPanelDAO extends JPanel {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
             int tableId = Integer.parseInt((String) tableModel.getValueAt(selectedRow, 0));
-            int confirmation = JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this table?","Confirm Delete",JOptionPane.YES_NO_OPTION);
-                
+            int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this table?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+
             if (confirmation == JOptionPane.YES_OPTION) {
                 if (deleteTable(tableId)) {
                     JOptionPane.showMessageDialog(this, "Table deleted successfully!");
-                    loadTableData();
+                    loadTableData(); // Refresh table data after deleting
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to delete table.");
                 }
@@ -187,5 +191,19 @@ public class TableManagementPanelDAO extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Please select a table to delete.");
         }
+    }
+
+    public boolean tableNumberExists(String tableNumber) {
+        String query = "SELECT COUNT(*) FROM Tables WHERE table_number = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, tableNumber);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking table number: " + e.getMessage());
+        }
+        return false;
     }
 }
