@@ -1,4 +1,26 @@
-# Restaurant-System
+# Restaurant Table Reservation System
+
+## about the system
+he Restaurant Table Reservation System is designed to streamline the booking and
+management of restaurant tables by providing a centralized database for storing reserva-
+tions, allowing customers to book tables in advance, and enabling real-time tracking of
+table availability. This system helps restaurants optimize seating arrangements, minimize
+wait times, and enhance the overall dining.
+
+## Key Features
+
+-Table Management
+• Add, edit, and delete tables with details like table number, capacity, and location.
+• View available tables for a specific date and time.
+
+-Reservation Management
+• Book, cancel, and view reservations for specific dates or time ranges.
+
+-Customer Management
+• Add, update, and delete customer details, including name, contact number, and email.
+
+-Reporting
+• Generate reports on daily or weekly reservation schedules, peak hours, and regular customers.
 
 ## How To Use
 Download and install XAMPP on your computer from this link https://www.apachefriends.org/download.html
