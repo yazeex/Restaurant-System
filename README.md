@@ -79,32 +79,28 @@ The system uses a MySQL database named restaurantdb. Below is the schema
   - Error Handling: Use try-catch blocks to handle exceptions gracefully.
   - Logging: Implement logging using frameworks like Log4j to track errors and debug information.
 
-    ### 3.3 Security Practices
-    
-    - Input Validation: Validate all user inputs to prevent SQL injection and other attacks.
-    - Encryption: Encrypt sensitive data like customer emails and phone numbers.
-    - Secure Credentials: Store database credentials securely using environment variables or encrypted configuration files.
-      #
-   
+### 3.3 Security Practices
+  - Input Validation: Validate all user inputs to prevent SQL injection and other attacks.
+  - Encryption: Encrypt sensitive data like customer emails and phone numbers.
+  - Secure Credentials: Store database credentials securely using environment variables or encrypted configuration files.
       
-    ## 4. Future Enhancements
-      
-    ### 4.1 User Authentication
-      - Implement a login system for restaurant staff and customers.
-      - Add role-based access control (e.g., Admin, Staff, Customer).
+## 4. Future Enhancements
+  ### 4.1 User Authentication
+  - Implement a login system for restaurant staff and customers.
+  - Add role-based access control (e.g., Admin, Staff, Customer).
         
-     ### 4.2 Online Booking Portal
-      - Develop a web-based interface for customers to book tables online.
-      - Add real-time table availability updates.
+  ### 4.2 Online Booking Portal
+  - Develop a web-based interface for customers to book tables online.
+  - Add real-time table availability updates.
         
-      ### 4.3 Payment Integration
-      - Integrate payment gateways like PayPal or Stripe for advance payments.
-      - Implement refund management for canceled reservations.
+  ### 4.3 Payment Integration
+  - Integrate payment gateways like PayPal or Stripe for advance payments.
+  - Implement refund management for canceled reservations.
         
-       ### 4.4 Advanced Reporting
-      - Add revenue tracking and customer feedback analysis.
-      - Provide insights into table utilization rates and peak hours.
-      #
+  ### 4.4 Advanced Reporting
+  - Add revenue tracking and customer feedback analysis.
+  - Provide insights into table utilization rates and peak hours.
+  #
 ## How To Use
 Download and install XAMPP on your computer from this link https://www.apachefriends.org/download.html
 
