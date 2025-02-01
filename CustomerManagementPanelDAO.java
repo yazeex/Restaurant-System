@@ -186,4 +186,3 @@ public class CustomerManagementPanelDAO extends JPanel {
             JOptionPane.showMessageDialog(this, "Please select a customer to delete.");
         }
     }
-}
