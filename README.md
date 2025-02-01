@@ -25,8 +25,86 @@ wait times, and enhance the overall dining.
 ## Technologies Used
 
 -  **java {Eclipse IDE}**: To implment the system
--  **XAMPP**: To use apache to create local server and to use Mycql to create database 
+-  **XAMPP**: To use apache to create local server and to use Mycql to create database
 
+  # Developer Guide
+ ## 1.Project Structure
+
+  The project is organized into the following packages and classes:
+  
+  ### Packages:
+  #### `restaurant_system` :  Contains the main application classes.
+  - `MainWindow`: The main application window with a tabbed interface.
+  - `DatabaseConnection`: Handles database connectivity.
+  - `TableManagementPanelDAO`: Manages table operations.
+  - `ReservationManagementPanelDAO`: Manages reservation operations.
+  - `CustomerManagementPanelDAO`: Manages customer operations.
+  - `ReportingPanel`: Generates and exports reports.
+#
+## 2. Database Schema
+
+The system uses a MySQL database named restaurantdb. Below is the schema
+
+### Tables:
+
+1.`Tables`:
+- `table_id` (Primary Key)
+- `table_number`
+- `capacity`
+- `location`
+- `status` (e.g., available, occupied)
+2. `Customers`:
+- `customer_id` (Primary Key)
+- `name`
+- `phone`
+- `email`
+
+3. `Reservations`:
+  - `reservation_id` (Primary Key)
+  - `table_id` (Foreign Key)
+  - `customer_id` (Foreign Key)
+  - `reservation_time`
+  - `duration`
+    #
+
+## 3.System Maintenance
+
+### 3.1 Database Management
+- Backup Regularly: Use tools like `mysqldump` or phpMyAdmin to back up the database.
+- Optimize Queries: Ensure SQL queries are optimized for performance. Use indexing for frequently queried columns.
+- Monitor Performance: Use tools like MySQL Workbench to monitor query performance and resolve bottlenecks.
+
+### 3.2 Code Maintenance
+  - Refactoring: Regularly refactor code to improve readability and maintainability.
+  - Error Handling: Use try-catch blocks to handle exceptions gracefully.
+  - Logging: Implement logging using frameworks like Log4j to track errors and debug information.
+
+    ### 3.3 Security Practices
+    
+    - Input Validation: Validate all user inputs to prevent SQL injection and other attacks.
+    - Encryption: Encrypt sensitive data like customer emails and phone numbers.
+    - Secure Credentials: Store database credentials securely using environment variables or encrypted configuration files.
+      #
+   
+      
+    ## 4. Future Enhancements
+      
+    ### 4.1 User Authentication
+      - Implement a login system for restaurant staff and customers.
+      - Add role-based access control (e.g., Admin, Staff, Customer).
+        
+     ### 4.2 Online Booking Portal
+      - Develop a web-based interface for customers to book tables online.
+      - Add real-time table availability updates.
+        
+      ### 4.3 Payment Integration
+      - Integrate payment gateways like PayPal or Stripe for advance payments.
+      - Implement refund management for canceled reservations.
+        
+       ### 4.4 Advanced Reporting
+      - Add revenue tracking and customer feedback analysis.
+      - Provide insights into table utilization rates and peak hours.
+      #
 ## How To Use
 Download and install XAMPP on your computer from this link https://www.apachefriends.org/download.html
 
@@ -77,3 +155,4 @@ Setup Instructions
 
 7.Add the file to your project:
 - If you are working on a Java project, add the `JAR` file to your project's build path (classpath). You can do this manually or using tools like Maven or Gradle.
+
